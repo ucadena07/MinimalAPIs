@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "HJ5Nm287SkhJQBkCfBLla3AU4TPiKzKd7jnp0+25HxDCbxwKqXsifevk96cWsqGL+Dvk3UNWwbv7HoPA2DhDjQ==",
+  "dgSpecHash": "zPaBwn2SQlfi1gNUhVqPE65yn00EXtYmsa2OODivxnIBI4/JS+F9GW7tTyqSQee26AkaV0y19txP5Av/Y6zXVw==",
   "success": true,
   "projectFilePath": "C:\\Users\\ucade_lbz6a\\OneDrive\\Documents\\ASP.NET\\MinimalAPIsMovies\\MinimalAPIsMovies\\MinimalAPIsMovies.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\ucade_lbz6a\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\ucade_lbz6a\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\ucade_lbz6a\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "C:\\Users\\ucade_lbz6a\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+  ],
   "logs": []
 }

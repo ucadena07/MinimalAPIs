@@ -24,3 +24,10 @@ C:\Users\ucade_lbz6a\OneDrive\Documents\ASP.NET\MinimalAPIsMovies\MinimalAPIsMov
 C:\Users\ucade_lbz6a\OneDrive\Documents\ASP.NET\MinimalAPIsMovies\MinimalAPIsMovies\obj\Debug\net8.0\MinimalAPIsMovies.genruntimeconfig.cache
 C:\Users\ucade_lbz6a\OneDrive\Documents\ASP.NET\MinimalAPIsMovies\MinimalAPIsMovies\obj\Debug\net8.0\ref\MinimalAPIsMovies.dll
 C:\Users\ucade_lbz6a\OneDrive\Documents\ASP.NET\MinimalAPIsMovies\MinimalAPIsMovies\obj\Debug\net8.0\MinimalAPIsMovies.sourcelink.json
+C:\Users\ucade_lbz6a\OneDrive\Documents\ASP.NET\MinimalAPIsMovies\MinimalAPIsMovies\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\ucade_lbz6a\OneDrive\Documents\ASP.NET\MinimalAPIsMovies\MinimalAPIsMovies\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\ucade_lbz6a\OneDrive\Documents\ASP.NET\MinimalAPIsMovies\MinimalAPIsMovies\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\ucade_lbz6a\OneDrive\Documents\ASP.NET\MinimalAPIsMovies\MinimalAPIsMovies\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\ucade_lbz6a\OneDrive\Documents\ASP.NET\MinimalAPIsMovies\MinimalAPIsMovies\obj\Debug\net8.0\MinimalAPIsMovies.csproj.AssemblyReference.cache
+C:\Users\ucade_lbz6a\OneDrive\Documents\ASP.NET\MinimalAPIsMovies\MinimalAPIsMovies\obj\Debug\net8.0\MinimalAPIsMovies.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\ucade_lbz6a\OneDrive\Documents\ASP.NET\MinimalAPIsMovies\MinimalAPIsMovies\obj\Debug\net8.0\MinimalAPIsMovies.csproj.CopyComplete

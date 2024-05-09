@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Cors;
 using MinimalAPIsMovies.Entities;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 //Services zone begins
@@ -20,11 +21,17 @@ builder.Services.AddCors(opt =>
 
 builder.Services.AddOutputCache();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 //Services zone ends
 var app = builder.Build();
 
 
 //Middleware zone begin
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.UseCors();
 app.UseOutputCache();
 
