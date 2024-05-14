@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using MinimalAPIsMovies.Data;
 using MinimalAPIsMovies.Entities;
@@ -44,13 +45,14 @@ app.UseCors();
 app.UseOutputCache();
 
 app.MapGet("/", () => "Hello World!");
+var genresEndpoints = app.MapGroup("/genres");
 
-app.MapGet("/genres", [EnableCors(policyName: "free")] async (IGenresRepository repo) =>
+genresEndpoints.MapGet("/", [EnableCors(policyName: "free")] async (IGenresRepository repo) =>
 {
     return await repo.GetAll();
-}).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(15)));
+}).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(15)).Tag("genre-get"));
 
-app.MapGet("/genres/{id:int}", async (int id, IGenresRepository repo) =>
+genresEndpoints.MapGet("/{id:int}", async (int id, IGenresRepository repo) =>
 {
     var genre = await repo.GetById(id);
     if(genre is null)
@@ -60,10 +62,32 @@ app.MapGet("/genres/{id:int}", async (int id, IGenresRepository repo) =>
     return Results.Ok(genre);   
 });
 
-app.MapPost("/genres", async (Genre genre, IGenresRepository repo) =>
+
+genresEndpoints.MapPost("/", async (Genre genre, IGenresRepository repo, IOutputCacheStore cStore) =>
 {
     var id = await repo.Create(genre);
+    await cStore.EvictByTagAsync("genre-get", default);
     return Results.Created($"/genre/{id}", genre);
+});
+genresEndpoints.MapPut("/", async (Genre genre, IGenresRepository repo, IOutputCacheStore cStore) =>
+{
+    var exist = await repo.Exists(genre.Id);
+    if (!exist)
+    {
+        return Results.NotFound();
+    }
+    await repo.Update(genre);
+    return Results.NoContent();   
+});
+genresEndpoints.MapDelete("/{id:int}", async (int id, IGenresRepository repo) =>
+{
+    var genre = await repo.Exists(id);
+    if (!genre)
+    {
+        return Results.NotFound();
+    }
+    await repo.Delete(id);
+    return Results.NoContent();
 });
 //Middleware zone ends
 app.Run();
