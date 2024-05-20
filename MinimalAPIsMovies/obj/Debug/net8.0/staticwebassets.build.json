@@ -1,11 +1,39 @@
 {
   "Version": 1,
-  "Hash": "ngLYUGdh1X3lAzjgvyjg1QwckL+3xuLnZVk9B0r5zuM=",
+  "Hash": "/4l6SvWlerBLy9LdJwbaS7ETP70GmEU59/hHFcPjhdg=",
   "Source": "MinimalAPIsMovies",
   "BasePath": "_content/MinimalAPIsMovies",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "MinimalAPIsMovies\\wwwroot",
+      "Source": "MinimalAPIsMovies",
+      "ContentRoot": "C:\\Users\\ucade_lbz6a\\OneDrive\\Documents\\ASP.NET\\MinimalAPIsMovies\\MinimalAPIsMovies\\wwwroot\\",
+      "BasePath": "_content/MinimalAPIsMovies",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\ucade_lbz6a\\OneDrive\\Documents\\ASP.NET\\MinimalAPIsMovies\\MinimalAPIsMovies\\wwwroot\\actors\\71c56a20-e1fb-4562-9fae-0e7d0cacc582.jpg",
+      "SourceId": "MinimalAPIsMovies",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ucade_lbz6a\\OneDrive\\Documents\\ASP.NET\\MinimalAPIsMovies\\MinimalAPIsMovies\\wwwroot\\",
+      "BasePath": "_content/MinimalAPIsMovies",
+      "RelativePath": "actors/71c56a20-e1fb-4562-9fae-0e7d0cacc582.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\actors\\71c56a20-e1fb-4562-9fae-0e7d0cacc582.jpg"
+    }
+  ]
 }
