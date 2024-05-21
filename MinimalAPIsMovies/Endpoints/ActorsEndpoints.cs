@@ -13,14 +13,15 @@ namespace MinimalAPIsMovies.Endpoints
     {
         public static RouteGroupBuilder MapActors(this RouteGroupBuilder group)
         {
-            group.MapPost("/",Create).DisableAntiforgery();
+    
 
 
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromMinutes(1)).Tag("actors-get"));
 
             group.MapGet("/{id:int}", GetById);
             group.MapGet("getByName/{name}", GetByName);
-
+            group.MapPost("/", Create).DisableAntiforgery();
+            group.MapPut("/{id:int}", Update).DisableAntiforgery();
             return group;
         }
 
@@ -63,6 +64,31 @@ namespace MinimalAPIsMovies.Endpoints
                 return TypedResults.NotFound();
             }
             return TypedResults.Ok(actors);
+        }
+
+        static async Task<Results<NoContent,NotFound>> Update(int id,[FromForm] CreateActorDTO createActorDTO, IActorsRepository _repo, IFileStorage fileStorage, IOutputCacheStore outputCacheBufferStore)
+        {
+            var actorDB = await _repo.GetById(id);
+            if(actorDB is null)
+            {
+                return TypedResults.NotFound();
+            }
+            var actorForUpdate = new Actor()
+            {
+                DateOfBirth = createActorDTO.DoB,
+                Name = createActorDTO?.Name,
+                Picture = actorDB.Picture,
+                Id = id
+            };
+
+            if (createActorDTO.Picture is not null)
+            {
+                //var url = await fileStorage.Delete(actorDB.Picture);
+
+            }
+            await _repo.Update(actorForUpdate);
+            await outputCacheBufferStore.EvictByTagAsync("actors-get", default);
+            return TypedResults.NoContent();
         }
     }
 }

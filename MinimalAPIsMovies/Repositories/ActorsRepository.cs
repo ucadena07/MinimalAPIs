@@ -2,6 +2,7 @@
 using MinimalAPIsMovies.Data;
 using MinimalAPIsMovies.Dtos;
 using MinimalAPIsMovies.Entities;
+using MinimalAPIsMovies.Extensions;
 
 namespace MinimalAPIsMovies.Repositories;
 
@@ -15,11 +16,13 @@ public interface IActorsRepository
     Task<List<Actor>> GetByName(string name);
     Task Update(Actor actor);
 }
-public class ActorsRepository(ApplicationDbContext context) : IActorsRepository
+public class ActorsRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccesor) : IActorsRepository
 {
     public async Task<List<Actor>> GetAll(PaginationDTO pagination)
     {
-        return await context.Actors.OrderBy(a => a.Name).ToListAsync();
+        var quaryable = context.Actors.AsQueryable();
+        await httpContextAccesor.HttpContext?.InsertPaginationParametersInReponseHeader(quaryable);
+        return await quaryable.OrderBy(a => a.Name).Paginate(pagination).ToListAsync();
     }
     public async Task<Actor> GetById(int id)
     {
