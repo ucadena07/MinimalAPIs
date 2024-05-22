@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.OutputCaching;
 using MinimalAPIsMovies.Entities;
 using MinimalAPIsMovies.Repositories;
@@ -27,8 +28,13 @@ namespace MinimalAPIsMovies.Endpoints
             });
 
 
-            genresEndpoints.MapPost("/", async (Genre genre, IGenresRepository repo, IOutputCacheStore cStore) =>
+            genresEndpoints.MapPost("/", async (Genre genre, IGenresRepository repo, IOutputCacheStore cStore, IValidator<Genre> validator) =>
             {
+                var validatinResults = await validator.ValidateAsync(genre);   
+                if(!validatinResults.IsValid)
+                {
+                    return TypedResults.ValidationProblem(validatinResults.ToDictionary());
+                }
                 var id = await repo.Create(genre);
                 await cStore.EvictByTagAsync("genre-get", default);
                 return Results.Created($"/genre/{id}", genre);

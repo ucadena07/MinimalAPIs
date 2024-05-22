@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IGenresRepository, GenresRepository>();  
 builder.Services.AddScoped<IActorsRepository, ActorsRepository>();  
 builder.Services.AddScoped<IFileStorage, LocalFileStorage>();  
-builder.Services.AddHttpContextAccessor();  
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 //Services zone ends
 var app = builder.Build();

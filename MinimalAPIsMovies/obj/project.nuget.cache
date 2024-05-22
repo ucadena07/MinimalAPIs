@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "2Tsc03Z/4W4ZxV9syuwQgLqqR00AIZQDuEUxKynwo5GTc5v2zmd4QjZF2gOGyLLbkNwwOCuurWleqPzHrfBs+g==",
+  "dgSpecHash": "XpZk69bF0zNz0ltajDj7iaRHetPU04m0UevvLbMW4F9vPDwrsqlqqjGPnA7j39uXObBsxMl4n6eZzuyZL766sQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\ucade_lbz6a\\OneDrive\\Documents\\ASP.NET\\MinimalAPIsMovies\\MinimalAPIsMovies\\MinimalAPIsMovies.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ucade_lbz6a\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\ucade_lbz6a\\.nuget\\packages\\azure.identity\\1.11.3\\azure.identity.1.11.3.nupkg.sha512",
+    "C:\\Users\\ucade_lbz6a\\.nuget\\packages\\fluentvalidation\\11.9.1\\fluentvalidation.11.9.1.nupkg.sha512",
+    "C:\\Users\\ucade_lbz6a\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.9.1\\fluentvalidation.dependencyinjectionextensions.11.9.1.nupkg.sha512",
     "C:\\Users\\ucade_lbz6a\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\ucade_lbz6a\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "C:\\Users\\ucade_lbz6a\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\3.3.3\\microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",
