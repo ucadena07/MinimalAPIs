@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.OutputCaching;
 using MinimalAPIsMovies.Entities;
+using MinimalAPIsMovies.Filters;
 using MinimalAPIsMovies.Repositories;
 
 namespace MinimalAPIsMovies.Endpoints
@@ -25,7 +26,7 @@ namespace MinimalAPIsMovies.Endpoints
                     return Results.NotFound();
                 }
                 return Results.Ok(genre);
-            });
+            }).AddEndpointFilter<TestFilters>();
 
 
             genresEndpoints.MapPost("/", async (Genre genre, IGenresRepository repo, IOutputCacheStore cStore, IValidator<Genre> validator) =>
@@ -35,12 +36,20 @@ namespace MinimalAPIsMovies.Endpoints
                 {
                     return TypedResults.ValidationProblem(validatinResults.ToDictionary());
                 }
+
+
+
                 var id = await repo.Create(genre);
                 await cStore.EvictByTagAsync("genre-get", default);
                 return Results.Created($"/genre/{id}", genre);
             });
-            genresEndpoints.MapPut("/", async (Genre genre, IGenresRepository repo, IOutputCacheStore cStore) =>
+            genresEndpoints.MapPut("/", async (Genre genre, IGenresRepository repo, IOutputCacheStore cStore, IValidator<Genre> validator) =>
             {
+                var validatinResults = await validator.ValidateAsync(genre);
+                if (!validatinResults.IsValid)
+                {
+                    return TypedResults.ValidationProblem(validatinResults.ToDictionary());
+                }
                 var exist = await repo.Exists(genre.Id);
                 if (!exist)
                 {

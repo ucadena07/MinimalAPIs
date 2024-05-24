@@ -11,8 +11,8 @@ public interface IGenresRepository
     Task<List<Genre>> GetAll();    
     Task<bool> Exists(int id);
     Task Update(Genre genre);
-    Task Delete(int id);    
-    
+    Task Delete(int id);
+    Task<bool> Exists(int id, string name);
 }
 
 public class GenresRepository : IGenresRepository
@@ -38,7 +38,10 @@ public class GenresRepository : IGenresRepository
     {
         return await context.Genres.AnyAsync(it => it.Id == id);   
     }
-
+    public async Task<bool> Exists(int id, string name)
+    {
+        return await context.Genres.AnyAsync(it => it.Id != id && it.Name == name);
+    }
     public async Task<List<Genre>> GetAll()
     {
         return await context.Genres?.ToListAsync();    
