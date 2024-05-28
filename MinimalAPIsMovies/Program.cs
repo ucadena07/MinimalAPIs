@@ -39,6 +39,7 @@ builder.Services.AddScoped<IActorsRepository, ActorsRepository>();
 builder.Services.AddScoped<IFileStorage, LocalFileStorage>();  
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddProblemDetails();
 
 //Services zone ends
 var app = builder.Build();
@@ -47,11 +48,20 @@ var app = builder.Build();
 //Middleware zone begin
 app.UseSwagger();
 app.UseSwaggerUI();
+app.UseExceptionHandler(exHandler =>
+{
+    exHandler.Run(async context =>
+    {
+        await Results.BadRequest(new { type = "error", message="an unexpected exception has occured", status = 500}).ExecuteAsync(context);
+    });
+});
+app.UseStatusCodePages();   
 app.UseStaticFiles();
 app.UseCors();
 app.UseOutputCache();
 
 app.MapGet("/", () => "Hello World!");
+app.MapGet("/error", () => { throw new InvalidOperationException("example error"); });
 app.MapGroup("/genres").MapGenres();
 app.MapGroup("/actors").MapActors();
 

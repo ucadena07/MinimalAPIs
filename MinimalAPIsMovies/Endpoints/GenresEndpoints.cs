@@ -26,30 +26,20 @@ namespace MinimalAPIsMovies.Endpoints
                     return Results.NotFound();
                 }
                 return Results.Ok(genre);
-            }).AddEndpointFilter<TestFilters>();
+            });
 
 
-            genresEndpoints.MapPost("/", async (Genre genre, IGenresRepository repo, IOutputCacheStore cStore, IValidator<Genre> validator) =>
+            genresEndpoints.MapPost("/", async (Genre genre, IGenresRepository repo, IOutputCacheStore cStore) =>
             {
-                var validatinResults = await validator.ValidateAsync(genre);   
-                if(!validatinResults.IsValid)
-                {
-                    return TypedResults.ValidationProblem(validatinResults.ToDictionary());
-                }
-
-
-
                 var id = await repo.Create(genre);
                 await cStore.EvictByTagAsync("genre-get", default);
                 return Results.Created($"/genre/{id}", genre);
-            });
-            genresEndpoints.MapPut("/", async (Genre genre, IGenresRepository repo, IOutputCacheStore cStore, IValidator<Genre> validator) =>
+
+            }).AddEndpointFilter<GenresValidationFilter>();
+
+
+            genresEndpoints.MapPut("/", async (Genre genre, IGenresRepository repo, IOutputCacheStore cStore) =>
             {
-                var validatinResults = await validator.ValidateAsync(genre);
-                if (!validatinResults.IsValid)
-                {
-                    return TypedResults.ValidationProblem(validatinResults.ToDictionary());
-                }
                 var exist = await repo.Exists(genre.Id);
                 if (!exist)
                 {
@@ -57,7 +47,7 @@ namespace MinimalAPIsMovies.Endpoints
                 }
                 await repo.Update(genre);
                 return Results.NoContent();
-            });
+            }).AddEndpointFilter<GenresValidationFilter>(); 
             genresEndpoints.MapDelete("/{id:int}", async (int id, IGenresRepository repo) =>
             {
                 var genre = await repo.Exists(id);
