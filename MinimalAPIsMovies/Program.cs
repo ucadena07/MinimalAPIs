@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using MinimalAPIsMovies.Data;
@@ -7,6 +8,8 @@ using MinimalAPIsMovies.Endpoints;
 using MinimalAPIsMovies.Entities;
 using MinimalAPIsMovies.Repositories;
 using MinimalAPIsMovies.Services;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Error = MinimalAPIsMovies.Entities.Error;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +39,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IGenresRepository, GenresRepository>();  
 builder.Services.AddScoped<IActorsRepository, ActorsRepository>();  
+builder.Services.AddScoped<IErrorsRepository, ErrorsRepository>();  
 builder.Services.AddScoped<IFileStorage, LocalFileStorage>();  
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
@@ -52,6 +56,17 @@ app.UseExceptionHandler(exHandler =>
 {
     exHandler.Run(async context =>
     {
+        var exHandlerFeature = context.Features.Get<IExceptionHandlerFeature>();
+        var ex = exHandlerFeature?.Error;
+
+        var error = new Error();
+        error.Date = DateTime.UtcNow;
+        error.StackTrace = ex.StackTrace;
+        error.ErrorMessage = ex.Message;    
+
+
+        var repo = context.RequestServices.GetRequiredService<IErrorsRepository>();
+        await repo.Create(error);
         await Results.BadRequest(new { type = "error", message="an unexpected exception has occured", status = 500}).ExecuteAsync(context);
     });
 });

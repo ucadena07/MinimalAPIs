@@ -26,5 +26,6 @@ namespace MinimalAPIsMovies.Data
         public DbSet<Genre> Genres { get; set; }    
         public DbSet<Actor> Actors { get; set; }    
         public DbSet<Movie> Movies { get; set; }    
+        public DbSet<Error> Errors { get; set; }    
     }
 }
