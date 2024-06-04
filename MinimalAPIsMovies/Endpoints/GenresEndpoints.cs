@@ -15,7 +15,6 @@ namespace MinimalAPIsMovies.Endpoints
 
             genresEndpoints.MapGet("/", [EnableCors(policyName: "free")] async (IGenresRepository repo) =>
             {
-                throw new Exception("Nigel says noooo");
                 return await repo.GetAll();
             }).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(15)).Tag("genre-get"));
 

@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using MinimalAPIsMovies.Data;
@@ -8,6 +9,7 @@ using MinimalAPIsMovies.Endpoints;
 using MinimalAPIsMovies.Entities;
 using MinimalAPIsMovies.Repositories;
 using MinimalAPIsMovies.Services;
+using MinimalAPIsMovies.Utils;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Error = MinimalAPIsMovies.Entities.Error;
 
@@ -18,6 +20,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer("name=DefaultConnection")
 );
+
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<UserManager<IdentityUser>>();
+builder.Services.AddScoped<SignInManager<IdentityUser>>();  
 
 builder.Services.AddCors(opt =>
 {
@@ -44,6 +53,21 @@ builder.Services.AddScoped<IFileStorage, LocalFileStorage>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddProblemDetails();
+
+builder.Services.AddAuthentication().AddJwtBearer(opts =>
+{
+    opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateIssuer = false,  
+        ValidateAudience = false,   
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ClockSkew = TimeSpan.Zero,  
+        //IssuerSigningKey = KeysHandler.GetKey(builder.Configuration).First(),   
+        IssuerSigningKeys = KeysHandler.GetAllKeys(builder.Configuration)
+    };
+});
+builder.Services.AddAuthorization();    
 
 //Services zone ends
 var app = builder.Build();
@@ -74,6 +98,8 @@ app.UseStatusCodePages();
 app.UseStaticFiles();
 app.UseCors();
 app.UseOutputCache();
+
+app.UseAuthorization();
 
 app.MapGet("/", () => "Hello World!");
 app.MapGet("/error", () => { throw new InvalidOperationException("example error"); });
