@@ -105,6 +105,7 @@ app.MapGet("/", () => "Hello World!");
 app.MapGet("/error", () => { throw new InvalidOperationException("example error"); });
 app.MapGroup("/genres").MapGenres();
 app.MapGroup("/actors").MapActors();
+app.MapGroup("/users").MapUsers();
 
 //Middleware zone ends
 app.Run();
