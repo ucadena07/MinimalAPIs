@@ -47,9 +47,9 @@ namespace MinimalAPIsMovies.Endpoints
             return TypedResults.Ok(actors); 
         }
 
-        static async Task<Results<Ok<Actor>, NotFound>> GetById(int id, IActorsRepository repo)
+        static async Task<Results<Ok<Actor>, NotFound>> GetById([AsParameters] GetActorsByIdRequestDTO model)
         {
-            var actor = await repo.GetById(id);
+            var actor = await model.Repository.GetById(model.Id);
             if (actor is null)
             {
                 return TypedResults.NotFound();

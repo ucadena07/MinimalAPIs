@@ -13,8 +13,19 @@ namespace MinimalAPIsMovies.Endpoints
         {
             
 
-            genresEndpoints.MapGet("/", [EnableCors(policyName: "free")] async (IGenresRepository repo) =>
+            genresEndpoints.MapGet("/", [EnableCors(policyName: "free")] async (IGenresRepository repo, ILoggerFactory loggerFactory) =>
             {
+                var type = typeof(GenresEndpoints);
+                var logger = loggerFactory.CreateLogger(type.FullName);
+                logger.LogTrace("This is a trace message");
+                logger.LogDebug("This is a debug message");
+                logger.LogInformation("This is a information message");
+                logger.LogWarning("This is a warning message");
+                logger.LogError("This is a error message");
+                logger.LogCritical("This is a critical message");
+                //logger.LogInformation("getting the list of genres");
+
+
                 return await repo.GetAll();
             }).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(15)).Tag("genre-get"));
 

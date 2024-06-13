@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 using MinimalAPIsMovies.Data;
@@ -100,6 +101,12 @@ app.UseCors();
 app.UseOutputCache();
 
 app.UseAuthorization();
+
+app.MapPost("/modelbinding", ([FromQuery(Name = "name2")] string name) =>
+{
+    if (name is null) name = "empty";
+    return TypedResults.Ok(name);   
+});
 
 app.MapGet("/", () => "Hello World!");
 app.MapGet("/error", () => { throw new InvalidOperationException("example error"); });
